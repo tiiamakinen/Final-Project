@@ -1,0 +1,4 @@
+22b2369 (HEAD -> master, origin/master) Added a feature to search artists
+40f2c6e Added feature to list albums per artist
+d73cc5c Added db, added feature to add artist to db
+d56ae86 Initial commit
