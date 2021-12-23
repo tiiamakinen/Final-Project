@@ -5,17 +5,15 @@ import java.util.List;
 import model.Artist;
 
 /**
- * ShoppingListItemDao on rajapinta, joka määrittelee, mitä operaatioita
- * DAO-luokan on toteutattava.
+ * ArtistDao is an interface that defines what operations the DAO class must perform.
  */
 public interface ArtistDao {
 
     public List<Artist> getAllArtists();
 
-//    public Artist getItem(long id);
-
     public boolean addArtist(Artist newArtist);
+    
+  //  public Artist getId(long id);
 
- //   public boolean removeItem(Artist item);
 }
 

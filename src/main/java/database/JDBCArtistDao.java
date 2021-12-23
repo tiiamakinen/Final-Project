@@ -12,7 +12,7 @@ import model.Artist;
 
 public class JDBCArtistDao implements ArtistDao {
 	
-	// toimii rajapintana tietokantaan
+	// Acts as an interface to the database
 	
 	private Database database = new Database();
 	
@@ -33,26 +33,21 @@ public class JDBCArtistDao implements ArtistDao {
 			results = statement.executeQuery();
 			
 			while (results.next()) {
-				
 				long id = results.getLong("ArtistId");
 				String name = results.getString("Name");
 				
 				Artist artist = new Artist(id, name);
 				allArtists.add(artist);
-				
 			}
 			
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
-			
 		} finally {
 			// suljetaan connection
 			this.database.close(connection, statement, results);
 		}
 		
 		return allArtists;
-		
 	}
 	
 	@Override
@@ -67,7 +62,9 @@ public class JDBCArtistDao implements ArtistDao {
             connection = this.database.connect();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, newArtist.getName());
+            
             int rows = statement.executeUpdate();
+            
             if (rows == 1) {
                 ids = statement.getGeneratedKeys();
                 ids.next();
@@ -75,13 +72,14 @@ public class JDBCArtistDao implements ArtistDao {
                 newArtist.setId(generatedId);
                 return true;
             }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             this.database.close(connection, statement, ids);
         }
+        
         return false;
-    }
-
+    }	
 
 }

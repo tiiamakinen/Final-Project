@@ -20,15 +20,15 @@ public class ArtistListServlet extends HttpServlet {
 	
 	private JDBCArtistDao dao = new JDBCArtistDao();
 	
-protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	List<Artist> artists = this.dao.getAllArtists();
 	
-	req.setAttribute("artists", artists);
-	req.getRequestDispatcher("/WEB-INF/artistList.jsp").forward(req, resp);
+	request.setAttribute("artists", artists);
+	request.getRequestDispatcher("/WEB-INF/artistList.jsp").forward(request, response);
 	
-	// haetaan kaikki artistit, valitetaan ne jsp-sivulle
-	resp.getWriter().println(artists);
+	// Retrieving all artists, forwarding them to the jsp page
+	response.getWriter().println(artists);
 }
 
 public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

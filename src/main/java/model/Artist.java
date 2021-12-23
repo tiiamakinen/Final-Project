@@ -23,6 +23,12 @@ public class Artist {
 		return this.name;
 		
 	}
+	
+	public long getId() {
+		
+		return this.id;
+		
+	}
 
 	public void setId(long id) {
 		
