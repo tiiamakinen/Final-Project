@@ -11,75 +11,114 @@ import java.util.List;
 import model.Artist;
 
 public class JDBCArtistDao implements ArtistDao {
-	
+
 	// Acts as an interface to the database
-	
+
 	private Database database = new Database();
-	
+
 	@Override
 	public List<Artist> getAllArtists() {
-		
+
 		String selectAll = "SELECT ArtistId, Name FROM Artist ORDER BY Name ASC;";
-		
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet results = null;
 		List<Artist> allArtists = new ArrayList<>();
-		
+
 		try {
-			
+
 			connection = database.connect();
 			statement = connection.prepareStatement(selectAll);
 			results = statement.executeQuery();
-			
+
 			while (results.next()) {
 				long id = results.getLong("ArtistId");
 				String name = results.getString("Name");
-				
+
 				Artist artist = new Artist(id, name);
 				allArtists.add(artist);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			// suljetaan connection
 			this.database.close(connection, statement, results);
 		}
-		
+
 		return allArtists;
 	}
-	
+
 	@Override
 	public boolean addArtist(Artist newArtist) {
-        String sql = "INSERT INTO Artist (Name) VALUES (?);";
+		String sql = "INSERT INTO Artist (Name) VALUES (?);";
 
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet ids = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet ids = null;
 
-        try {
-            connection = this.database.connect();
-            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, newArtist.getName());
-            
-            int rows = statement.executeUpdate();
-            
-            if (rows == 1) {
-                ids = statement.getGeneratedKeys();
-                ids.next();
-                long generatedId = ids.getLong(1);
-                newArtist.setId(generatedId);
-                return true;
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.database.close(connection, statement, ids);
-        }
-        
-        return false;
-    }	
+		try {
+			connection = this.database.connect();
+			statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, newArtist.getName());
+
+			int rows = statement.executeUpdate();
+
+			if (rows == 1) {
+				ids = statement.getGeneratedKeys();
+				ids.next();
+				long generatedId = ids.getLong(1);
+				newArtist.setId(generatedId);
+				return true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.database.close(connection, statement, ids);
+		}
+
+		return false;
+	}
+
+	@Override
+	public List<Artist> getSearchedArtists(String searchTerm) {
+
+		System.out.println("hello");
+
+		String selectSearched = "SELECT ArtistId, Name FROM Artist WHERE Name LIKE ? ORDER BY Name ASC;";
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		List<Artist> searchedArtists = new ArrayList<>();
+		String something = "%" + searchTerm + "%";
+
+		try {
+
+			connection = database.connect();
+			statement = connection.prepareStatement(selectSearched);
+			statement.setString(1, something);
+
+			results = statement.executeQuery();
+
+			while (results.next()) {
+				long id = results.getLong("ArtistId");
+				String name = results.getString("Name");
+
+				Artist artist = new Artist(id, name);
+				searchedArtists.add(artist);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.database.close(connection, statement, results);
+		}
+
+		return searchedArtists;
+
+
+	}
 
 }

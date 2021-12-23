@@ -13,6 +13,8 @@ public interface ArtistDao {
 
     public boolean addArtist(Artist newArtist);
     
+    public List<Artist> getSearchedArtists(String searchTerm);
+    
   //  public Artist getId(long id);
 
 }

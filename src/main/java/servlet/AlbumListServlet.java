@@ -14,29 +14,25 @@ import model.Album;
 
 @WebServlet("/albumList")
 public class AlbumListServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private JDBCAlbumDao dao = new JDBCAlbumDao();
-	
-protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-	String id = request.getParameter("ArtistId");
-	
-	long idLong = Long.parseLong(id);
-	
-	System.out.println(id);
-	
-	List<Album> albums = this.dao.getAllAlbums(idLong);
-	
-	System.out.println(albums);
-	
-	request.setAttribute("albums", albums);
-	request.getRequestDispatcher("/WEB-INF/albumList.jsp").forward(request, response);
-	
-	// Retrieving all albums, forwarding them to the jsp page
-	response.getWriter().println(albums);
-	
-}
-	
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String id = request.getParameter("ArtistId");
+
+		long idLong = Long.parseLong(id);
+
+		List<Album> albums = this.dao.getAllAlbums(idLong);
+
+		request.setAttribute("albums", albums);
+		request.getRequestDispatcher("/WEB-INF/albumList.jsp").forward(request, response);
+
+		// Retrieving all albums, forwarding them to the jsp page
+		response.getWriter().println(albums);
+
+	}
+
 }

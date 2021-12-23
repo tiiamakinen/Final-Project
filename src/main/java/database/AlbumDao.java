@@ -9,8 +9,6 @@ import model.Album;
  */
 public interface AlbumDao {
 
-    public List<Album> getAllAlbums(long id);
-    
- //   public Album getAlbum(long id);
+	public List<Album> getAllAlbums(long id);
 
 }
