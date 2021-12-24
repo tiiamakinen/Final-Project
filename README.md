@@ -1,4 +1,4 @@
-###Created the following files:
+### Created the following files:
 
 - **ArtistDao.java** - *Interface of ArtistDao that defines what operations the dao class must perform*
 
